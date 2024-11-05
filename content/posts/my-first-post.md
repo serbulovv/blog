@@ -1,6 +1,6 @@
 +++
-date = '2024-11-03T21:55:35+02:00'
-title = 'My First Post'
+date = '2024-11-05T21:55:35+02:00'
+title = 'Gitlab OAuth with Ruby'
 +++
 
 ## Introduction
