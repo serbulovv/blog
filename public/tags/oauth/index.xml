@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Genry Blog</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on Genry Blog</description>
+    <title>Oauth on Genry Blog</title>
+    <link>http://localhost:1313/tags/oauth/</link>
+    <description>Recent content in Oauth on Genry Blog</description>
     <generator>Hugo -- 0.138.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Oct 2024 00:00:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Nov 2024 00:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/oauth/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to obtain Gitlab access token</title>
       <link>http://localhost:1313/posts/how-to-obtain-gitlab-access-token/</link>
-      <pubDate>Sun, 20 Oct 2024 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 01 Nov 2024 00:00:00 +0200</pubDate>
       <guid>http://localhost:1313/posts/how-to-obtain-gitlab-access-token/</guid>
       <description>&lt;p&gt;&lt;img alt=&#34;Post Logo&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/posts/how-to-obtain-gitlab-access-token/header.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Recently, i needed to access the list of repositories for specific users on GitLab. One crucial step in obtaining this access is acquiring an access token. In this article, i will explain how you can obtain a user&amp;rsquo;s &lt;strong&gt;&lt;code&gt;access token&lt;/code&gt;&lt;/strong&gt;.&lt;/p&gt;

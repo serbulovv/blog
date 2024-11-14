@@ -5,11 +5,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Posts | Genry Blog</title>
-<meta name="keywords" content="">
-<meta name="description" content="Posts - Genry Blog">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/">
+<title>How to obtain Gitlab access token | Genry Blog</title>
+<meta name="keywords" content="gitlab, oauth, ruby">
+<meta name="description" content="
+Recently, I needed to access the list of repositories for specific users on GitLab. One crucial step in obtaining this access is acquiring an access token. In this article, I will explain in detail how you can obtain a user&rsquo;s access token.
+I would divide the whole process into three steps:
+
+Creating an Application on GitLab
+Receiving the Code
+Obtaining an Access Token
+
+Creating an Application on GitLab
+The process of creating an application on GitLab has the following steps:">
+<meta name="author" content="Genry Wood">
+<link rel="canonical" href="http://localhost:1313/posts/how-to-obtain-gitlab-access-token/how-to-obtain-gitlab-access-token/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
@@ -18,8 +27,7 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/how-to-obtain-gitlab-access-token/how-to-obtain-gitlab-access-token/">
 <noscript>
     <style>
         #theme-toggle,
@@ -59,7 +67,7 @@
 </noscript>
 </head>
 
-<body class="list" id="top">
+<body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
@@ -102,27 +110,71 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Posts
-  </h1>
-</header>
+<main class="main">
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">How to obtain Gitlab access token
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>
-Recently, i needed to access the list of repositories for specific users on GitLab. One crucial step in obtaining this access is acquiring an access token. In this article, i will explain how you can obtain a user’s access token.
-I would divide the whole process into three steps:
-Creating an Application on GitLab Receiving the Code Obtaining an Access Token Creating an Application on GitLab The process of creating an application on GitLab has the following steps:
-...</p>
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      How to obtain Gitlab access token
+    </h1>
+    <div class="post-meta"><span title='2024-11-14 00:00:00 +0200 EET'>November 14, 2024</span>&nbsp;·&nbsp;Genry Wood
+
+</div>
+  </header> 
+  <div class="post-content"><p><img alt="Post Logo" loading="lazy" src="./header.jpg"></p>
+<p>Recently, I needed to access the list of repositories for specific users on GitLab. One crucial step in obtaining this access is acquiring an access token. In this article, I will explain in detail how you can obtain a user&rsquo;s <strong><code>access token</code></strong>.</p>
+<p>I would divide the whole process into three steps:</p>
+<ol>
+<li>Creating an Application on GitLab</li>
+<li>Receiving the Code</li>
+<li>Obtaining an Access Token</li>
+</ol>
+<h2 id="creating-an-application-on-gitlab">Creating an Application on GitLab<a hidden class="anchor" aria-hidden="true" href="#creating-an-application-on-gitlab">#</a></h2>
+<p>The process of creating an application on GitLab has the following steps:</p>
+<ol>
+<li>On the left sidebar, select your avatar.</li>
+<li>Select <strong>Edit profile</strong>.</li>
+<li>Enter the name of your application and provide a <strong>redirect URI</strong>. This is the URL where the user will be redirected after successful authentication.</li>
+<li>Specify the required <strong>scopes</strong>. In my case, the <code>api</code> scope was sufficient.</li>
+<li>Disable the <strong>Confidential</strong> option. Since the authentication will occur via a web browser, ensure that the &ldquo;<code>Confidential</code>&rdquo; option is disabled.</li>
+</ol>
+<p>These steps will be sufficient to create a GitLab application.</p>
+<h2 id="receiving-the-code">Receiving the Code<a hidden class="anchor" aria-hidden="true" href="#receiving-the-code">#</a></h2>
+<p>To continue with the process, you need to obtain an <code>authorization code</code>. To do this, you must provide an authorization URL to the user whose access code you wish to retrieve. For that, you need to send a GET request to <code>https://gitlab.com/oauth/authorize</code> with the following parameters:</p>
+<ol>
+<li><strong>client_id</strong> - The client ID you received when registering the application on GitLab.</li>
+<li><strong>redirect_uri</strong> – The redirect URI you specified during application registration.</li>
+<li><strong>response_type</strong> – Set this to <code>code</code>.</li>
+<li><strong>scope</strong> – The scope you specified during the application registration (e.g., <code>api</code>).</li>
+</ol>
+<p>Once the user is authenticated, they will be redirected to the URI you previously specified. The redirect URL will contain the authorization <code>code</code> that we need.</p>
+<h2 id="obtaining-an-access-token">Obtaining an Access Token<a hidden class="anchor" aria-hidden="true" href="#obtaining-an-access-token">#</a></h2>
+<p>Using the code obtained in the previous step, make a POST request to <code>https://gitlab.com/oauth/token</code>. In the body parameters, also include:</p>
+<ol>
+<li><strong>client_id</strong></li>
+<li><strong>grant_type</strong> - Set this to <code>authorization_code</code>.</li>
+<li><strong>redirect_uri</strong></li>
+</ol>
+<p>If the request is successful, you will receive a response containing the access token we&rsquo;ve been working towards.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&#34;access_token&#34;</span>: <span style="color:#e6db74">&#34;de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54&#34;</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&#34;token_type&#34;</span>: <span style="color:#e6db74">&#34;bearer&#34;</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&#34;expires_in&#34;</span>: <span style="color:#ae81ff">7200</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&#34;refresh_token&#34;</span>: <span style="color:#e6db74">&#34;8257e65c97202ed1726cf9571600918f3bffb2544b26e00a61df9897668c33a1&#34;</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&#34;created_at&#34;</span>: <span style="color:#ae81ff">1731616569</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+
   </div>
-  <footer class="entry-footer"><span title='2024-10-20 00:00:00 +0200 +0200'>October 20, 2024</span>&nbsp;·&nbsp;Genry Wood</footer>
-  <a class="entry-link" aria-label="post link to How to obtain Gitlab access token" href="http://localhost:1313/posts/how-to-obtain-gitlab-access-token/"></a>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/gitlab/">Gitlab</a></li>
+      <li><a href="http://localhost:1313/tags/oauth/">Oauth</a></li>
+      <li><a href="http://localhost:1313/tags/ruby/">Ruby</a></li>
+    </ul>
+  </footer>
 </article>
     </main>
     
