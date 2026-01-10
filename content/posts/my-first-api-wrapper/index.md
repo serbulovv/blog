@@ -1,5 +1,5 @@
 +++
-date = '2024-11-01T00:00:00+02:00'
+date = '2026-01-10T00:00:00+02:00'
 title = 'My first API wrapper'
 author = 'Genry Wood'
 tags = ['api', 'wrapper', 'ruby']
