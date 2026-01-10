@@ -7,7 +7,7 @@ tags = ['gitlab', 'oauth', 'ruby']
 
 ![Post Logo](./header.png)
 
-Recently, i needed to access the list of repositories for specific users on GitLab. One crucial step in obtaining this access is acquiring an access token. In this article, i will explain how you can obtain a user's **`access token`**.
+Recently, I needed to access the list of repositories for specific users on GitLab. One crucial step in obtaining this access is acquiring an access token. In this article, i will explain how you can obtain a user's **`access token`**.
 
 I would divide the whole process into three steps:
 

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>My first API wrapper | Genry Blog</title>
+<meta name="keywords" content="api, wrapper, ruby">
+<meta name="description" content="
+My First API wrapper
+The Problem
+Once I had a desire to play Artifacts MMORPG in order to improve my skills in working with third-party
+APIs (yes, playing this game you can master or improve these skills).
+Over time, I encountered a problem that I needed to write a lot of additional logic for handling requests,
+errors, etc. I saw how people in community of this game create their own wrappers to make it easier to work
+with this API, but all the wrappers were in other programming languages ( not Ruby ).
+That&rsquo;s when I decided to learn more about wrappers and what are the best practices for writing them.">
+<meta name="author" content="Genry Wood">
+<link rel="canonical" href="http://localhost:1313/posts/my-first-api-wrapper/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/my-first-api-wrapper/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Genry Blog (Alt + H)">Genry Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      My first API wrapper
+    </h1>
+    <div class="post-meta"><span title='2024-11-01 00:00:00 +0200 EET'>November 1, 2024</span>&nbsp;·&nbsp;Genry Wood
+
+</div>
+  </header> 
+  <div class="post-content"><p><img alt="Post Logo" loading="lazy" src="/posts/my-first-api-wrapper/header.png"></p>
+<h1 id="my-first-api-wrapper">My First API wrapper<a hidden class="anchor" aria-hidden="true" href="#my-first-api-wrapper">#</a></h1>
+<h2 id="the-problem">The Problem<a hidden class="anchor" aria-hidden="true" href="#the-problem">#</a></h2>
+<p>Once I had a desire to play <a href="https://www.artifactsmmo.com">Artifacts MMORPG</a> in order to improve my skills in working with third-party
+APIs (yes, playing this game you can master or improve these skills).
+Over time, I encountered a problem that I needed to write a lot of additional logic for handling requests,
+errors, etc. I saw how people in community of this game create their own wrappers to make it easier to work
+with this API, but all the wrappers were in other programming languages ( not Ruby ).
+That&rsquo;s when I decided to learn more about wrappers and what are the best practices for writing them.</p>
+<h2 id="solution">Solution<a hidden class="anchor" aria-hidden="true" href="#solution">#</a></h2>
+<p>I started looking for articles on how people usually write such wrappers in Ruby or other programming languages.
+Having looked at quite large wrappers (payments or wrappers for working with social networks)
+I got an approximate scheme of writing wrappers.</p>
+<blockquote>
+<p>PS. In the article I will mention many classes I have already written, so you can see the wrapper <a href="https://github.com/serbulovv/artifacts-api-client">code here</a>.</p>
+</blockquote>
+<p>So every wrapper should have:</p>
+<p><strong>Configuration Layer:</strong></p>
+<ul>
+<li>Responsible for storing global settings such as <code>api_key</code> and <code>base_url</code>. Provides secure and flexible client initialization.</li>
+<li>My classes: <code>ArtifactsApiClient::Configuration</code>, main <code>ArtifactsApiClient</code> module with configure method.</li>
+</ul>
+<p><strong>Connection Layer:</strong></p>
+<ul>
+<li>Responsible for configuring HTTP settings using <code>Faraday</code> and defining how data is exchanged (e.g. JSON encoding/decoding). This means that it can be extended in the future to support other providers for http requests</li>
+<li>My classes: <code>ArtifactsApiClient::Connection</code>.</li>
+</ul>
+<p><strong>Client Layer:</strong></p>
+<ul>
+<li>A central class that encapsulates the logic of executing requests (get, post, delete), adds the necessary headers (especially <code>Authorization</code>) and delegates error handling.</li>
+<li>My classes: <code>ArtifactsApiClient::Client</code>.</li>
+</ul>
+<p><strong>Error Handling Layer:</strong></p>
+<ul>
+<li>Converts HTTP statuses (e.g. 404, 500) to specific, named Ruby exceptions (e.g. <code>CharacterNotFoundError</code>).</li>
+<li>My classes: <code>ArtifactsApiClient::ErrorsHandler</code> and all its specialized subclasses.</li>
+</ul>
+<p><strong>Resource Layer:</strong></p>
+<p>Provides a clean, idiomatic Ruby interface to the end user. These classes are thin wrappers that map logical methods (e.g. <code>get_all_badges</code>) to specific API URLs and pass them to the <code>Client</code> class.
+My classes: <code>ArtifactsApiClient::Api::Achievements</code>, <code>ArtifactsApiClient::Api::Badges</code>, etc.</p>
+<hr>
+<p>Next, I will explain the code I developed for each of these layers.</p>
+<p><strong>Configuration Layer</strong></p>
+<p>The code looks like this.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">module</span> ArtifactsApiClient
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Configuration</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">BASE_API_URL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://api.artifactsmmo.com/&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">attr_accessor</span> <span style="color:#e6db74">:api_key</span>, <span style="color:#e6db74">:base_url</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>
+</span></span><span style="display:flex;"><span>      @api_key <span style="color:#f92672">=</span> <span style="color:#66d9ef">ENV</span><span style="color:#f92672">[</span><span style="color:#e6db74">&#39;ARTIFACTS_API_TOKEN&#39;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>      @base_url <span style="color:#f92672">=</span> <span style="color:#66d9ef">BASE_API_URL</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>I would say that this is the base point for setting up all the settings.
+Main tasks of this class to encapsulates the parameters that should be accessible from different
+layers of the client:</p>
+<p><code>api_key</code> - authorization token for accessing a third-party API;
+<code>base_url</code> - the base API address from which all endpoints are built.</p>
+<p>Although <strong>BASE_API_URL</strong> is specified as a constant, base_url is an attr_accessor. This allows you to:</p>
+<ul>
+<li>replace the API endpoint (e.g. for a sandbox or staging environment);</li>
+<li>use a fake or local server in tests;</li>
+<li>not change the client code when changing the API infrastructure.</li>
+</ul>
+<p><strong>Connection Layer:</strong></p>
+<p>The code looks like this.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#75715e"># frozen_string_literal: true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">module</span> ArtifactsApiClient
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Connection</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">class</span> <span style="color:#f92672">&lt;&lt;</span> self
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">Faraday</span><span style="color:#f92672">.</span>new(<span style="color:#66d9ef">ArtifactsApiClient</span><span style="color:#f92672">.</span>configuration<span style="color:#f92672">.</span>base_url) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>f<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>         f<span style="color:#f92672">.</span>request <span style="color:#e6db74">:json</span>
+</span></span><span style="display:flex;"><span>         f<span style="color:#f92672">.</span>response <span style="color:#e6db74">:json</span>, <span style="color:#e6db74">content_type</span>: <span style="color:#e6db74">&#39;application/json&#39;</span>
+</span></span><span style="display:flex;"><span>         f<span style="color:#f92672">.</span>adapter <span style="color:#66d9ef">Faraday</span><span style="color:#f92672">.</span>default_adapter
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The current class is an entry point for creating HTTP connections and settings. It looks pretty “dumb” now,
+but the main idea was to be able to choose the right HTTP request provider when needed.</p>
+<p>The <code>.build</code> method encapsulates all of Faraday&rsquo;s initialization logic. This allows:</p>
+<ul>
+<li>The client (Client class) is independent of Faraday configuration details;</li>
+<li>if you change the HTTP library or settings, you only need to change this class.</li>
+</ul>
+<p><strong>Error Handling Layer:</strong></p>
+<p>The code for this class is quite long, so I&rsquo;ll just attach the highlights.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#75715e"># frozen_string_literal: true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;json&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">module</span> ArtifactsApiClient
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ErrorsHandler</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">StandardError</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">attr_reader</span> <span style="color:#e6db74">:status</span>, <span style="color:#e6db74">:body</span>, <span style="color:#e6db74">:error_details</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(message <span style="color:#f92672">=</span> <span style="color:#66d9ef">nil</span>, <span style="color:#e6db74">status</span>: <span style="color:#66d9ef">nil</span>, <span style="color:#e6db74">body</span>: <span style="color:#66d9ef">nil</span>, <span style="color:#e6db74">error_code</span>: <span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">super</span>(message)
+</span></span><span style="display:flex;"><span>     @status <span style="color:#f92672">=</span> status
+</span></span><span style="display:flex;"><span>     @body <span style="color:#f92672">=</span> body
+</span></span><span style="display:flex;"><span>     @error_code <span style="color:#f92672">=</span> error_code
+</span></span><span style="display:flex;"><span>     @error_details <span style="color:#f92672">=</span> parse_error(body)
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">.</span><span style="color:#a6e22e">handle_error</span>(response)
+</span></span><span style="display:flex;"><span>     code <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>body<span style="color:#f92672">.</span>is_a?(<span style="color:#66d9ef">Hash</span>) ? response<span style="color:#f92672">.</span>body<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;error&#34;</span><span style="color:#f92672">][</span><span style="color:#e6db74">&#34;code&#34;</span><span style="color:#f92672">]</span> : <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">case</span> response<span style="color:#f92672">.</span>status
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e"># General</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">when</span> <span style="color:#ae81ff">422</span> <span style="color:#66d9ef">then</span> <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">InvalidPayloadError</span><span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#34;Invalid Payload&#34;</span>, <span style="color:#e6db74">status</span>: <span style="color:#ae81ff">422</span>, <span style="color:#e6db74">body</span>: response<span style="color:#f92672">.</span>body, <span style="color:#e6db74">error_code</span>: code)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">when</span> <span style="color:#ae81ff">429</span> <span style="color:#66d9ef">then</span> <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">TooManyRequestsError</span><span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#34;Too Many Requests&#34;</span>, <span style="color:#e6db74">status</span>: <span style="color:#ae81ff">429</span>, <span style="color:#e6db74">body</span>: response<span style="color:#f92672">.</span>body, <span style="color:#e6db74">error_code</span>: code)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">when</span> <span style="color:#ae81ff">404</span> <span style="color:#66d9ef">then</span> <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">NotFoundError</span><span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#34;Not Found&#34;</span>, <span style="color:#e6db74">status</span>: <span style="color:#ae81ff">404</span>, <span style="color:#e6db74">body</span>: response<span style="color:#f92672">.</span>body, <span style="color:#e6db74">error_code</span>: code)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">raise</span> self<span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#34;Unexpected error&#34;</span>, <span style="color:#e6db74">status</span>: response<span style="color:#f92672">.</span>status, <span style="color:#e6db74">body</span>: response<span style="color:#f92672">.</span>body, <span style="color:#e6db74">error_code</span>: code)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">private</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parse_error</span>(body)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> body <span style="color:#66d9ef">unless</span> body<span style="color:#f92672">.</span>is_a?(String)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">JSON</span><span style="color:#f92672">.</span>parse(body) <span style="color:#66d9ef">rescue</span> body
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">InvalidPayloadError</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ErrorsHandler</span>; <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TooManyRequestsError</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ErrorsHandler</span>; <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotFoundError</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ErrorsHandler</span>; <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>This class (layer) is quite primitive and has logical actions - to handle errors, or more precisely,
+to handle errors from a third-party API. It converts HTTP statuses and error codes into specific
+Ruby exceptions, so that later it can be conveniently handled. I consider this a rather important class,
+because it directly affects the business logic that will be written for the application that will use this
+wrapper. Using these errors, you can postpone the execution of some tasks, or perform some other business
+actions.</p>
+<p>If an error occurs, we catch the error code and interpret it into a normal, readable, and unique exception that can be handled. If the error code is unknown, we throw a more general exception.</p>
+<p><strong>Client:</strong></p>
+<p>The code looks like this.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#75715e"># frozen_string_literal: true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;json&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">module</span> ArtifactsApiClient
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Client</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">class</span> <span style="color:#f92672">&lt;&lt;</span> self
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(path, <span style="color:#e6db74">headers</span>: {}, <span style="color:#e6db74">params</span>: {})
+</span></span><span style="display:flex;"><span>       response <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span>get(path, params, default_headers<span style="color:#f92672">.</span>merge(headers))
+</span></span><span style="display:flex;"><span>       handle_response(response)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(path, <span style="color:#e6db74">headers</span>: {}, <span style="color:#e6db74">params</span>: {})
+</span></span><span style="display:flex;"><span>       response <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span>post(path, params<span style="color:#f92672">.</span>to_json, default_headers<span style="color:#f92672">.</span>merge(headers))
+</span></span><span style="display:flex;"><span>       handle_response(response)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">delete</span>(path, <span style="color:#e6db74">headers</span>: {})
+</span></span><span style="display:flex;"><span>       response <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span>delete(path, <span style="color:#66d9ef">nil</span>, default_headers<span style="color:#f92672">.</span>merge(headers))
+</span></span><span style="display:flex;"><span>       handle_response(response)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">private</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connection</span>
+</span></span><span style="display:flex;"><span>       @connection <span style="color:#f92672">||=</span> <span style="color:#66d9ef">Connection</span><span style="color:#f92672">.</span>build
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">default_headers</span>
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#39;Authorization&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;Bearer </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">ArtifactsApiClient</span><span style="color:#f92672">.</span>configuration<span style="color:#f92672">.</span>api_key<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#39;Accept&#39;</span>        <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;application/json&#39;</span>,
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#39;Content-Type&#39;</span>  <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;application/json&#39;</span>
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_response</span>(response)
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">200</span><span style="color:#f92672">..</span><span style="color:#ae81ff">299</span>)<span style="color:#f92672">.</span>cover?(response<span style="color:#f92672">.</span>status)
+</span></span><span style="display:flex;"><span>         response<span style="color:#f92672">.</span>body
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">ErrorsHandler</span><span style="color:#f92672">.</span>handle_error(response)
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>This class is the central point for executing HTTP requests to a third-party API.
+It encapsulates the logic of sending requests, adding headers, and processing responses.
+In my understanding, the essence of this class is to collect all the previous configurations
+and use them to universally execute certain actions. In my case, the actions are requests to
+a third-party API. That is, the configuration of the API keys and the base URL has already been configured,
+the connection provider has been specified, all that remains is to execute the requests, and if something
+goes wrong, to handle these errors with the already created error handler.</p>
+<p>Key points of the class:</p>
+<p><strong>Using a shared HTTP connection</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connection</span>
+</span></span><span style="display:flex;"><span>  @connection <span style="color:#f92672">||=</span> <span style="color:#66d9ef">Connection</span><span style="color:#f92672">.</span>build
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The connection is created once and cached. This:</p>
+<ul>
+<li>reduces redundant initialization;</li>
+<li>guarantees a consistent configuration for all requests.</li>
+</ul>
+<p><strong>Centralized headers by default</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">default_headers</span>
+</span></span></code></pre></div><p>The method generates a standard set of headers:</p>
+<ul>
+<li><code>Authorization</code> — Bearer token from global configuration;</li>
+<li><code>Accept</code> — expected response format;</li>
+<li><code>Content-Type</code> — request body format.</li>
+</ul>
+<p><strong>Flexible expansion of headers and parameters</strong></p>
+<p>Each public method accepts:</p>
+<ul>
+<li><code>headers</code> — to add or redefine headings;</li>
+<li><code>params</code> — for passing query parameters (<strong>GET</strong>) or the request body (<strong>POST</strong>).</li>
+</ul>
+<p>This approach allows resource classes to remain simple and not to know the details of the HTTP layer.</p>
+<p>Client class does not contain any business logic for specific resources and does not know anything about
+the structure of API responses. Its role is to be a stable transport layer between resource classes and
+the HTTP connection.</p>
+<p><strong>Classes that have business logic</strong></p>
+<p><img alt="Classes" loading="lazy" src="/posts/my-first-api-wrapper/classes.jpg"></p>
+<p>All of these classes cover all the core logic of the Artifacts game.
+The classes in the <code>ArtifactsApiClient::Api</code> namespace are responsible for providing a domain-aware,
+idiomatic Ruby interface to third-party API endpoints. They translate the API business operations into
+understandable methods without exposing the details of the HTTP layer.</p>
+<p>General principles and responsibilities of these classes:</p>
+<p><strong>Domain mapping to HTTP routes</strong></p>
+<p>Each class in <code>Api::*</code> is responsible for a specific domain area (accounts, characters, items, etc.).
+The methods of these classes directly represent API endpoints and their business semantics,
+not the technical implementation details.</p>
+<p><strong>No infrastructure logic</strong></p>
+<p>Resource classes:</p>
+<ul>
+<li>do not know about Faraday;</li>
+<li>do not work with headers;</li>
+<li>do not handle errors;</li>
+<li>do not perform serialization or deserialization.</li>
+</ul>
+<p>All infrastructure logic is delegated to the <code>Client</code> class.</p>
+<p><strong>Thin and predictable methods</strong></p>
+<p>Each method:</p>
+<ul>
+<li>builds the endpoint path;</li>
+<li>selects the HTTP method (GET, POST, DELETE);</li>
+<li>passes parameters without modification.</li>
+</ul>
+<p>In addition to all the wrapper logic, I would also like to point out the <strong>entry point</strong> into the wrapper itself.
+The code looks like this</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#75715e"># frozen_string_literal: true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;zeitwerk&#39;</span>
+</span></span><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;faraday&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">module</span> ArtifactsApiClient
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">class</span> <span style="color:#f92672">&lt;&lt;</span> self
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">attr_accessor</span> <span style="color:#e6db74">:configuration</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure</span>
+</span></span><span style="display:flex;"><span>     self<span style="color:#f92672">.</span>configuration <span style="color:#f92672">||=</span> <span style="color:#66d9ef">Configuration</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">yield</span>(configuration)
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configuration</span>
+</span></span><span style="display:flex;"><span>     @configuration <span style="color:#f92672">||=</span> <span style="color:#66d9ef">Configuration</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>loader <span style="color:#f92672">=</span> <span style="color:#66d9ef">Zeitwerk</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Loader</span><span style="color:#f92672">.</span>for_gem
+</span></span><span style="display:flex;"><span>loader<span style="color:#f92672">.</span>setup
+</span></span></code></pre></div><p>This code is responsible for initializing the API wrapper, managing global configuration, and autoloading classes. It forms the public entry point for the library user.</p>
+<p>Through it:</p>
+<ul>
+<li>configuration is defined;</li>
+<li>all API resources are доступні;</li>
+<li>the internal structure of the library is hidden.</li>
+</ul>
+<h2 id="conclusions">Conclusions<a hidden class="anchor" aria-hidden="true" href="#conclusions">#</a></h2>
+<p>With this article I wanted to show my understanding of writing simple wrappers for third-party APIs.
+The <a href="https://github.com/serbulovv/artifacts-api-client">repository</a> shows the general structure of writing such wrappers. One of the key requirements was to
+create the most flexible solution possible: with support for dynamic configuration, the ability to pass
+a base URL, replace HTTP transport, as well as with centralized and extensible error handling.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/api/">Api</a></li>
+      <li><a href="http://localhost:1313/tags/wrapper/">Wrapper</a></li>
+      <li><a href="http://localhost:1313/tags/ruby/">Ruby</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Genry Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
