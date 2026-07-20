@@ -4,7 +4,7 @@
     <title>Gitlab on Genry Blog</title>
     <link>http://localhost:1313/tags/gitlab/</link>
     <description>Recent content in Gitlab on Genry Blog</description>
-    <generator>Hugo -- 0.152.2</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 Nov 2024 00:00:00 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/gitlab/index.xml" rel="self" type="application/rss+xml" />

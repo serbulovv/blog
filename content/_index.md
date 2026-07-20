@@ -1,12 +1,12 @@
 <br></br>
 <br></br>
 
-# Welcome to My Dev Journey
+# Welcome to My Simple Dev Journey
 
 <br></br>
 ## About Me  
 
-I’m a Ruby on Rails developer passionate about creating web applications.
+I’m a Ruby developer passionate about creating web applications and hate AI ( **a lil bit** ).
 
 Here, I share my projects and insights from the world of Rails and web development.
 
