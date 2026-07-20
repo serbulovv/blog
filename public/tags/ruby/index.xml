@@ -4,10 +4,37 @@
     <title>Ruby on Genry Blog</title>
     <link>http://localhost:1313/tags/ruby/</link>
     <description>Recent content in Ruby on Genry Blog</description>
-    <generator>Hugo -- 0.152.2</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Nov 2024 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 24 Mar 2026 00:00:00 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ruby Sahha Integration</title>
+      <link>http://localhost:1313/posts/sahha-integration/</link>
+      <pubDate>Tue, 24 Mar 2026 00:00:00 +0200</pubDate>
+      <guid>http://localhost:1313/posts/sahha-integration/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;Post Logo&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/posts/sahha-integration/header.png&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;ruby-sahha-integration&#34;&gt;Ruby Sahha integration&lt;/h1&gt;
+&lt;h2 id=&#34;what-is-sahha&#34;&gt;What is Sahha?&lt;/h2&gt;
+&lt;p&gt;Sahha is an app for tracking your health, sleep, activity, and more — &lt;a href=&#34;Docs&#34;&gt;docs.sahha.ai.&lt;/a&gt;
+Put simply, Sahha is a powerful API and SDK for behavioral data analysis. It acts as a &amp;ldquo;bridge&amp;rdquo; between raw data from smartphones or wearable devices (Apple Health, Google Fit) and a deep understanding of a person&amp;rsquo;s psychological and physical state.
+Instead of just showing you step count graphs, Sahha uses sophisticated machine learning models to detect patterns in behavior. It turns passive data into insights about mental health, stress levels, and overall wellbeing.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My first API wrapper</title>
+      <link>http://localhost:1313/posts/my-first-api-wrapper/</link>
+      <pubDate>Sat, 10 Jan 2026 00:00:00 +0200</pubDate>
+      <guid>http://localhost:1313/posts/my-first-api-wrapper/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;Post Logo&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/posts/my-first-api-wrapper/header.png&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;my-first-api-wrapper&#34;&gt;My First API wrapper&lt;/h1&gt;
+&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;Once I had a desire to play &lt;a href=&#34;https://www.artifactsmmo.com&#34;&gt;Artifacts MMORPG&lt;/a&gt; in order to improve my skills in working with third-party
+APIs (yes, playing this game you can master or improve these skills).
+Over time, I encountered a problem that I needed to write a lot of additional logic for handling requests,
+errors, etc. I saw how people in community of this game create their own wrappers to make it easier to work
+with this API, but all the wrappers were in other programming languages ( not Ruby ).
+That&amp;rsquo;s when I decided to learn more about wrappers and what are the best practices for writing them.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>How to obtain Gitlab access token</title>
       <link>http://localhost:1313/posts/how-to-obtain-gitlab-access-token/</link>
@@ -23,21 +50,6 @@
 &lt;/ol&gt;
 &lt;h2 id=&#34;creating-an-application-on-gitlab&#34;&gt;Creating an Application on GitLab&lt;/h2&gt;
 &lt;p&gt;The process of creating an application on GitLab has the following steps:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>My first API wrapper</title>
-      <link>http://localhost:1313/posts/my-first-api-wrapper/</link>
-      <pubDate>Fri, 01 Nov 2024 00:00:00 +0200</pubDate>
-      <guid>http://localhost:1313/posts/my-first-api-wrapper/</guid>
-      <description>&lt;p&gt;&lt;img alt=&#34;Post Logo&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/posts/my-first-api-wrapper/header.png&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;my-first-api-wrapper&#34;&gt;My First API wrapper&lt;/h1&gt;
-&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
-&lt;p&gt;Once I had a desire to play &lt;a href=&#34;https://www.artifactsmmo.com&#34;&gt;Artifacts MMORPG&lt;/a&gt; in order to improve my skills in working with third-party
-APIs (yes, playing this game you can master or improve these skills).
-Over time, I encountered a problem that I needed to write a lot of additional logic for handling requests,
-errors, etc. I saw how people in community of this game create their own wrappers to make it easier to work
-with this API, but all the wrappers were in other programming languages ( not Ruby ).
-That&amp;rsquo;s when I decided to learn more about wrappers and what are the best practices for writing them.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

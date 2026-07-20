@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Ruby Sahha Integration | Genry Blog</title>
+<meta name="keywords" content="api, wrapper, ruby, health, sahha, healtkit">
+<meta name="description" content="
+What is Sahha?
+Sahha is an app for tracking your health, sleep, activity, and more — docs.sahha.ai.
+Put simply, Sahha is a powerful API and SDK for behavioral data analysis. It acts as a &ldquo;bridge&rdquo; between raw data from smartphones or wearable devices (Apple Health, Google Fit) and a deep understanding of a person&rsquo;s psychological and physical state.
+Instead of just showing you step count graphs, Sahha uses sophisticated machine learning models to detect patterns in behavior. It turns passive data into insights about mental health, stress levels, and overall wellbeing.">
+<meta name="author" content="Genry Wood">
+<link rel="canonical" href="http://localhost:1313/posts/sahha-integration/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/sahha-integration/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Genry Blog (Alt + H)">Genry Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Ruby Sahha Integration
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-03-24 00:00:00 +0200 EET'>March 24, 2026</span>&nbsp;·&nbsp;<span>Genry Wood</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p><img alt="Post Logo" loading="lazy" src="/posts/sahha-integration/header.png"></p>
+<h2 id="what-is-sahha">What is Sahha?<a hidden class="anchor" aria-hidden="true" href="#what-is-sahha">#</a></h2>
+<p>Sahha is an app for tracking your health, sleep, activity, and more — <a href="Docs">docs.sahha.ai.</a>
+Put simply, Sahha is a powerful API and SDK for behavioral data analysis. It acts as a &ldquo;bridge&rdquo; between raw data from smartphones or wearable devices (Apple Health, Google Fit) and a deep understanding of a person&rsquo;s psychological and physical state.
+Instead of just showing you step count graphs, Sahha uses sophisticated machine learning models to detect patterns in behavior. It turns passive data into insights about mental health, stress levels, and overall wellbeing.</p>
+<p>The architecture is pretty simple. I did the same thing <a href="http://localhost:1313/posts/my-first-api-wrapper/">in this article</a> for the API wrapper and followed the same approaches.</p>
+<h2 id="how-can-you-integrate-sahha">How can you integrate Sahha<a hidden class="anchor" aria-hidden="true" href="#how-can-you-integrate-sahha">#</a></h2>
+<p>The most obvious first step is to get an API key for the sandbox. The sandbox gives you API access for 30 days.
+Next, you need to choose how you&rsquo;ll receive data:</p>
+<ul>
+<li><em>Using webhooks</em> (in my opinion, the best approach)</li>
+<li><em>Using polling</em> (what I chose for my own needs, though I don&rsquo;t think it&rsquo;s the ideal option)</li>
+</ul>
+<p>So let&rsquo;s start with what I actually implemented - polling. Why? I need to deliver the freshest possible data from Sahha right when the app launches. This isn&rsquo;t achievable with webhooks alone (mostly because of Apple&rsquo;s ecosystem). Apple HealthKit only returns health data when the user is actively using an app that syncs it - so if a user hasn&rsquo;t opened the app in a long time, there won&rsquo;t be fresh data available the instant they open it. With polling, we can show the user in real time that their data is loading (a similar effect could be achieved with sockets + webhooks). Here&rsquo;s how it works and what&rsquo;s needed for it.</p>
+<h3 id="architecture">Architecture:<a hidden class="anchor" aria-hidden="true" href="#architecture">#</a></h3>
+<p><strong>configuration.rb</strong> - stores credentials, current environment (sandbox/production), and the cached account token with its expiry.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">module</span> Sahha
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Configuration</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">attr_accessor</span> <span style="color:#e6db74">:client_id</span>, <span style="color:#e6db74">:client_secret</span>, <span style="color:#e6db74">:environment</span>,
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">:account_token</span>, <span style="color:#e6db74">:account_token_expires_at</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SANDBOX_URL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://sandbox-api.sahha.ai&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">PRODUCTION_URL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://api.sahha.ai&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(<span style="color:#e6db74">client_id</span>:, <span style="color:#e6db74">client_secret</span>:, <span style="color:#e6db74">environment</span>: <span style="color:#e6db74">:sandbox</span>)
+</span></span><span style="display:flex;"><span>      @client_id <span style="color:#f92672">=</span> client_id
+</span></span><span style="display:flex;"><span>      @client_secret <span style="color:#f92672">=</span> client_secret
+</span></span><span style="display:flex;"><span>      @environment <span style="color:#f92672">=</span> environment
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">base_url</span>
+</span></span><span style="display:flex;"><span>      environment <span style="color:#f92672">==</span> <span style="color:#e6db74">:production</span> ? <span style="color:#66d9ef">PRODUCTION_URL</span> : <span style="color:#66d9ef">SANDBOX_URL</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">account_token_valid?</span>
+</span></span><span style="display:flex;"><span>      account_token <span style="color:#f92672">&amp;&amp;</span> account_token_expires_at <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">Time</span><span style="color:#f92672">.</span>now <span style="color:#f92672">&lt;</span> account_token_expires_at
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p><strong>connection.rb</strong> - a thin Faraday wrapper that builds requests with the correct base URL, headers, and auth token.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>require <span style="color:#e6db74">&#34;faraday&#34;</span>
+</span></span><span style="display:flex;"><span>require <span style="color:#e6db74">&#34;json&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">module</span> Sahha
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Connection</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">TOKEN_TYPE</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;account&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(configuration)
+</span></span><span style="display:flex;"><span>      @configuration <span style="color:#f92672">=</span> configuration
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(path, <span style="color:#e6db74">params</span>: {}, <span style="color:#e6db74">token</span>: <span style="color:#66d9ef">nil</span>, <span style="color:#e6db74">token_type</span>: <span style="color:#66d9ef">TOKEN_TYPE</span>)
+</span></span><span style="display:flex;"><span>      request(<span style="color:#e6db74">:get</span>, path, <span style="color:#e6db74">params</span>: params, <span style="color:#e6db74">token</span>: token, <span style="color:#e6db74">token_type</span>: token_type)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(path, <span style="color:#e6db74">body</span>: {}, <span style="color:#e6db74">token</span>: <span style="color:#66d9ef">nil</span>, <span style="color:#e6db74">token_type</span>: <span style="color:#66d9ef">TOKEN_TYPE</span>)
+</span></span><span style="display:flex;"><span>      request(<span style="color:#e6db74">:post</span>, path, <span style="color:#e6db74">body</span>: body, <span style="color:#e6db74">token</span>: token, <span style="color:#e6db74">token_type</span>: token_type)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">request</span>(method, path, <span style="color:#e6db74">params</span>: {}, <span style="color:#e6db74">body</span>: {}, <span style="color:#e6db74">token</span>: <span style="color:#66d9ef">nil</span>, <span style="color:#e6db74">token_type</span>: <span style="color:#66d9ef">TOKEN_TYPE</span>)
+</span></span><span style="display:flex;"><span>      connection<span style="color:#f92672">.</span>public_send(method) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>req<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">.</span>url path
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">.</span>params <span style="color:#f92672">=</span> params <span style="color:#66d9ef">if</span> params<span style="color:#f92672">.</span>any?
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">.</span>headers<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Content-Type&#34;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;application/json&#34;</span>
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">.</span>headers<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Authorization&#34;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>token_type<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">#{</span>token<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">if</span> token
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">.</span>body <span style="color:#f92672">=</span> body<span style="color:#f92672">.</span>to_json <span style="color:#66d9ef">if</span> body<span style="color:#f92672">.</span>any?
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connection</span>
+</span></span><span style="display:flex;"><span>      @connection <span style="color:#f92672">||=</span> <span style="color:#66d9ef">Faraday</span><span style="color:#f92672">.</span>new(<span style="color:#e6db74">url</span>: @configuration<span style="color:#f92672">.</span>base_url)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p><strong>error_handler.rb</strong> - maps HTTP status codes (200/201/204/400/401) to explicit exception classes so calling code can rescue specific failure modes instead of parsing raw responses.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">module</span> Sahha
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApiError</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">StandardError</span>; <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UnauthorizedError</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApiError</span>; <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BadRequestError</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApiError</span>; <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NoContentError</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApiError</span>; <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ErrorHandler</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">.</span><span style="color:#a6e22e">handle</span>(response)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> response<span style="color:#f92672">.</span>status
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">when</span> <span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">201</span>
+</span></span><span style="display:flex;"><span>        response
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">when</span> <span style="color:#ae81ff">204</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">NoContentError</span>, <span style="color:#e6db74">&#34;No data available for this query yet&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">when</span> <span style="color:#ae81ff">400</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">BadRequestError</span>, <span style="color:#e6db74">&#34;Invalid parameters or externalId already in use&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">when</span> <span style="color:#ae81ff">401</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">UnauthorizedError</span>, <span style="color:#e6db74">&#34;Missing, invalid, or expired token&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">ApiError</span>, <span style="color:#e6db74">&#34;Unexpected response: </span><span style="color:#e6db74">#{</span>response<span style="color:#f92672">.</span>status<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">#{</span>response<span style="color:#f92672">.</span>body<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p><strong>api.rb</strong> - maps Sahha&rsquo;s actual endpoints (account token, profile, scores, refresh token) to connection calls, passing every response through the error handler.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">module</span> Sahha
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Api</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(connection)
+</span></span><span style="display:flex;"><span>      @connection <span style="color:#f92672">=</span> connection
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">account_token</span>(client_id, client_secret)
+</span></span><span style="display:flex;"><span>      response <span style="color:#f92672">=</span> @connection<span style="color:#f92672">.</span>post(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/api/v1/oauth/account/token&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">body</span>: { <span style="color:#e6db74">clientId</span>: client_id, <span style="color:#e6db74">clientSecret</span>: client_secret }
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ErrorHandler</span><span style="color:#f92672">.</span>handle(response)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">refresh_profile_token</span>(refresh_token)
+</span></span><span style="display:flex;"><span>      response <span style="color:#f92672">=</span> @connection<span style="color:#f92672">.</span>post(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/api/v1/oauth/profile/refreshToken&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">body</span>: { <span style="color:#e6db74">refreshToken</span>: refresh_token }
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ErrorHandler</span><span style="color:#f92672">.</span>handle(response)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">profile</span>(external_id, account_token)
+</span></span><span style="display:flex;"><span>      response <span style="color:#f92672">=</span> @connection<span style="color:#f92672">.</span>get(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/api/v1/account/profile/</span><span style="color:#e6db74">#{</span>external_id<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">token</span>: account_token
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ErrorHandler</span><span style="color:#f92672">.</span>handle(response)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">scores</span>(external_id, account_token, <span style="color:#e6db74">types</span>: <span style="color:#f92672">[]</span>)
+</span></span><span style="display:flex;"><span>      response <span style="color:#f92672">=</span> @connection<span style="color:#f92672">.</span>get(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/api/v1/profile/score/</span><span style="color:#e6db74">#{</span>external_id<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">params</span>: { <span style="color:#e6db74">types</span>: types<span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#34;,&#34;</span>) },
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">token</span>: account_token
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ErrorHandler</span><span style="color:#f92672">.</span>handle(response)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p><strong>client.rb</strong> - the public interface I actually use; it refreshes the account token before each call so we never have to think about token expiration.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">module</span> Sahha
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Client</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(<span style="color:#e6db74">client_id</span>:, <span style="color:#e6db74">client_secret</span>:, <span style="color:#e6db74">environment</span>: <span style="color:#e6db74">:sandbox</span>)
+</span></span><span style="display:flex;"><span>      @configuration <span style="color:#f92672">=</span> <span style="color:#66d9ef">Configuration</span><span style="color:#f92672">.</span>new(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">client_id</span>: client_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">client_secret</span>: client_secret,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">environment</span>: environment
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>      @connection <span style="color:#f92672">=</span> <span style="color:#66d9ef">Connection</span><span style="color:#f92672">.</span>new(@configuration)
+</span></span><span style="display:flex;"><span>      @api <span style="color:#f92672">=</span> <span style="color:#66d9ef">Api</span><span style="color:#f92672">.</span>new(@connection)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">profile</span>(external_id)
+</span></span><span style="display:flex;"><span>      ensure_account_token!
+</span></span><span style="display:flex;"><span>      @api<span style="color:#f92672">.</span>profile(external_id, @configuration<span style="color:#f92672">.</span>account_token)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">scores</span>(external_id, <span style="color:#e6db74">types</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;activity&#34;</span>, <span style="color:#e6db74">&#34;sleep&#34;</span><span style="color:#f92672">]</span>)
+</span></span><span style="display:flex;"><span>      ensure_account_token!
+</span></span><span style="display:flex;"><span>      @api<span style="color:#f92672">.</span>scores(external_id, @configuration<span style="color:#f92672">.</span>account_token, <span style="color:#e6db74">types</span>: types)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ensure_account_token!</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">if</span> @configuration<span style="color:#f92672">.</span>account_token_valid?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      response <span style="color:#f92672">=</span> @api<span style="color:#f92672">.</span>account_token(@configuration<span style="color:#f92672">.</span>client_id, @configuration<span style="color:#f92672">.</span>client_secret)
+</span></span><span style="display:flex;"><span>      data <span style="color:#f92672">=</span> <span style="color:#66d9ef">JSON</span><span style="color:#f92672">.</span>parse(response<span style="color:#f92672">.</span>body)
+</span></span><span style="display:flex;"><span>      @configuration<span style="color:#f92672">.</span>account_token <span style="color:#f92672">=</span> data<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;accountToken&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>      @configuration<span style="color:#f92672">.</span>account_token_expires_at <span style="color:#f92672">=</span> <span style="color:#66d9ef">Time</span><span style="color:#f92672">.</span>now <span style="color:#f92672">+</span> <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h2 id="webhooks">Webhooks<a hidden class="anchor" aria-hidden="true" href="#webhooks">#</a></h2>
+<p>The alternative to polling is webhooks - and honestly, for most integrations, it&rsquo;s the better choice (do not follow my polling flow xD). Instead of your app repeatedly asking Sahha if there anything new, Sahha pushes data to your server the moment an event happens like a new score is calculated or a biomarker updates. No wasted requests, no delay between the event and your server knowing about it - pretty simple.</p>
+<p>Here&rsquo;s how it works. You register an endpoint URL in your Sahha dashboard. When something relevant happens for one of your profiles, Sahha sends a POST request to that URL.</p>
+<p>Unfortunately I won&rsquo;t provide webhook processing but i would like to notice important think - do now forget to validate ur webhook. Sahha provides X-Signature, X-External-Id and X-Event-Type header in terms to validate them.</p>
+<h2 id="wrapping-up">Wrapping up<a hidden class="anchor" aria-hidden="true" href="#wrapping-up">#</a></h2>
+<p>So that&rsquo;s basically my journey with Sahha so far. I won&rsquo;t pretend it was all smooth - figuring out the polling vs webhooks trade-off took me longer than I&rsquo;d like to admit, and I definitely wasted a couple of evenings staring at HealthKit&rsquo;s quirks before it clicked why webhooks alone wouldn&rsquo;t cut it for my case.</p>
+<p>But honestly? Once it clicked, it clicked. Having a service that turns raw sensor noise into something like &ldquo;this person is more stressed than usual&rdquo; or &ldquo;their sleep quality dropped this week&rdquo; - without me having to build any of the ML behind it feels like a genuine shortcut ( but do not forget about Sahha price :) )</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/api/">Api</a></li>
+      <li><a href="http://localhost:1313/tags/wrapper/">Wrapper</a></li>
+      <li><a href="http://localhost:1313/tags/ruby/">Ruby</a></li>
+      <li><a href="http://localhost:1313/tags/health/">Health</a></li>
+      <li><a href="http://localhost:1313/tags/sahha/">Sahha</a></li>
+      <li><a href="http://localhost:1313/tags/healtkit/">Healtkit</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Genry Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
