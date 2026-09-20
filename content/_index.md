@@ -6,7 +6,7 @@
 <br></br>
 ## About Me  
 
-I’m a Ruby developer passionate about creating web applications and hate AI ( **a lil bit** ).
+I’m a Ruby developer passionate about creating web/console applications.
 
 Here, I share my projects and insights from the world of Rails and web development.
 
