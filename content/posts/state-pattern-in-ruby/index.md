@@ -1,13 +1,11 @@
 +++
 date = '2026-09-20T00:00:00+02:00'
-title = 'State Pattern in Ruby'
+title = 'State Pattern in Ruby: Replacing a case/when Menu in My Console RPG'
 author = 'Genry Wood'
 tags = ['pattern', 'state', 'ruby', 'rpg', 'game', 'console']
 +++
 
 ![Post Logo](./header.png)
-
-# State Pattern in Ruby: Replacing a case/when Menu in My Console RPG
 
 ## My menu got out of hand
 
