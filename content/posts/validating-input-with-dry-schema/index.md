@@ -167,7 +167,7 @@ contract.call(title: '').errors(full: true).to_h
 
 ## Nested input
 
-Real payloads contain nested objects and lists. A nested hash is declared with `hash do ... end` on a key, and a list of hashes with `array(:hash) do ... end`:
+Some payloads contain nested objects and lists. A nested hash is declared with `hash do ... end` on a key, and a list of hashes with `array(:hash) do ... end`:
 
 ```ruby
 # frozen_string_literal: true
