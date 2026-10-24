@@ -1,5 +1,5 @@
 +++
-date = '2026-06-1T00:00:00+02:00'
+date = '2026-06-01T00:00:00+02:00'
 title = 'Validating API input with dry-validation'
 author = 'Genry Wood'
 tags = ['api', 'validation', 'ruby', 'rails', 'dry', 'dry-validation']
