@@ -5,7 +5,7 @@ author = 'Genry Wood'
 tags = ['api', 'authentication', 'jwt', 'ruby', 'rails']
 +++
 
-![Post Logo](header.png)
+![Post Logo](./header.png)
 
 A browser session works because the server remembers it. After login the server stores a session, hands the browser an identifier in a cookie, and looks that identifier up on every request. An API consumed by mobile applications and other services has a harder time with this arrangement: cookies are not a natural fit for those clients, and every request needs a shared store that all servers can reach.
 
