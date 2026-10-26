@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1200" height="630" fill="#111827"/>
+
+  <text x="60" y="118" font-size="76" font-weight="700" fill="#f9fafb">JWT</text>
+
+  <!-- valid token -->
+  <g transform="rotate(-3 320 365)">
+    <rect x="120" y="210" width="400" height="310" rx="20" fill="#f3f4f6"/>
+    <rect x="160" y="250" width="100" height="16" rx="8" fill="#fb923c"/>
+    <rect x="160" y="292" width="260" height="14" rx="7" fill="#a78bfa"/>
+    <rect x="160" y="326" width="200" height="14" rx="7" fill="#a78bfa"/>
+    <rect x="160" y="360" width="230" height="14" rx="7" fill="#a78bfa"/>
+    <circle cx="440" cy="470" r="52" fill="#2dd4bf"/>
+    <circle cx="440" cy="470" r="40" fill="none" stroke="#111827" stroke-width="3" opacity="0.35"/>
+    <polyline points="418,470 435,487 466,452" fill="none" stroke="#111827" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- tampered token -->
+  <g transform="rotate(3 880 365)">
+    <rect x="680" y="210" width="400" height="310" rx="20" fill="#f3f4f6"/>
+    <rect x="720" y="250" width="100" height="16" rx="8" fill="#fb923c"/>
+    <rect x="720" y="292" width="260" height="14" rx="7" fill="#a78bfa"/>
+    <rect x="720" y="326" width="200" height="14" rx="7" fill="#f87171"/>
+    <rect x="720" y="360" width="230" height="14" rx="7" fill="#a78bfa"/>
+    <circle cx="1000" cy="470" r="52" fill="none" stroke="#f87171" stroke-width="6" stroke-dasharray="10 8"/>
+    <line x1="980" y1="450" x2="1020" y2="490" stroke="#f87171" stroke-width="10" stroke-linecap="round"/>
+    <line x1="1020" y1="450" x2="980" y2="490" stroke="#f87171" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>
