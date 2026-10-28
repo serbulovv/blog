@@ -1,7 +1,7 @@
 <br></br>
 <br></br>
 
-# Welcome to My Simple Dev Journey
+# Welcome to My Dev Journey
 
 <br></br>
 ## About Me  
